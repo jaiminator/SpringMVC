@@ -1,2 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/SpringMVC"/>
+<Context antiJARLocking="true" path="/SpringMVC">
+
+    <Resource
+    type="javax.sql.DataSource"
+    auth="Container"
+    name="jdbc/sistema_bancario"
+    driverClassName="com.mysql.jdbc.Driver"
+    url="jdbc:mysql://localhost:3306/sistema_bancario"
+    username="root"
+    password="root"
+ 
+    maxActive="100"
+    maxIdle="30"
+    maxWait="10000"
+    validationQuery="SELECT 1 FROM dual"
+ />
+    
+</Context>
