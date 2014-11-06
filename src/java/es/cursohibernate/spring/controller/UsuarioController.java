@@ -26,14 +26,14 @@ public class UsuarioController {
     @Autowired
     private EntidadBancariaDAO entidadBancariaDAO;
     
-     @RequestMapping(value = {"/EntidadBancaria"})
-     public void prueba(HttpServletRequest httpRequest, HttpServletResponse httpServletResponse) throws IOException {
-        JsonTransformer jsonTransformer = new JsonTransformerImplJackson();
+    @RequestMapping(value = {"/EntidadBancaria"})
+    public void prueba(HttpServletRequest httpRequest, HttpServletResponse httpServletResponse) throws IOException {
+       JsonTransformer jsonTransformer = new JsonTransformerImplJackson();
         
-        EntidadBancaria entidadBancaria = entidadBancariaDAO.get(4);
-        String jsonEntidad = jsonTransformer.toJson(entidadBancaria);
+       EntidadBancaria entidadBancaria = entidadBancariaDAO.get(7);
+       String jsonEntidad = jsonTransformer.toJson(entidadBancaria);
         
-        httpServletResponse.getWriter().println(jsonEntidad);
+       httpServletResponse.getWriter().println(jsonEntidad);
     }
     
 }

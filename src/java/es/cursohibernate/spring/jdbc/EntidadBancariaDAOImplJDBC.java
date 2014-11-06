@@ -16,6 +16,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 /**
  *
@@ -23,8 +26,11 @@ import java.util.List;
  */
 public class EntidadBancariaDAOImplJDBC implements EntidadBancariaDAO {
     
+    
+    
     @Override
     public void delete (int idEntidadBancaria) {
+        
         try {
             Connection conn;
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistema_bancario","root", "root");
@@ -113,11 +119,15 @@ public class EntidadBancariaDAOImplJDBC implements EntidadBancariaDAO {
     @Override
     public EntidadBancaria get(int idEntidadBancaria) {
         try {
-            Connection conn;
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistema_bancario","root", "root");
+            
+            InitialContext initCtx=new InitialContext();;
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            DataSource dataSource = (DataSource)envCtx.lookup("jdbc/sistema_bancario");
+            Connection connection = dataSource.getConnection();
+            
             String selectParcialSQL = "SELECT * FROM entidadbancaria WHERE idEntidadBancaria = ?";
 
-            PreparedStatement preparedStatement = conn.prepareStatement(selectParcialSQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(selectParcialSQL);
             preparedStatement.setInt(1, idEntidadBancaria);
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -128,6 +138,7 @@ public class EntidadBancariaDAOImplJDBC implements EntidadBancariaDAO {
                 entidadBancaria.setCodigoEntidad(rs.getString("codigoEntidad"));
                 entidadBancaria.setFechaCreacion(rs.getDate("fechaCreacion"));
 
+            connection.close();
             
             return entidadBancaria;
         } catch (Exception ex) {
